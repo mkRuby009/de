@@ -1,3 +1,3 @@
-# 06-spark-aqe-connect
+# spark-connect practice
 
 Work in progress.
