@@ -1,0 +1,11 @@
+sources:
+  - name: raw
+    schema: learndbt
+    tables:
+      - name: raw_customers
+
+      - name: raw_orders
+
+      - name: raw_products
+
+      - name: raw_payments

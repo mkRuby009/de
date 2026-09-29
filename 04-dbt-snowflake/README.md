@@ -1,3 +1,5 @@
-# 04-scd2-dbt-snowflake
+# 04-dbt-snowflake
 
-Work in progress.
+Project: Simple usecase of sales analysis in DBT cloud using snowflake warehouse
+
+
