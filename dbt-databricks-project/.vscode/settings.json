@@ -1,0 +1,9 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "files.associations": {
+  "*.sql": "jinja-sql",
+  "*.yml": "jinja-yaml",
+  "*.yaml": "jinja-yaml"
+  },
+  "dbt.perspectiveTheme": "Pro Dark"
+}
