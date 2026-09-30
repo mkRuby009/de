@@ -12,7 +12,7 @@ A simple project medallion architecture loading and transforming small set of sa
 The project exercises below high-level features for learning (besides many other cool concepts):-   
 - concepts: models, materializations, sources, references
 - dbt seeds
-- dbt snapshots
+- dbt snapshots (scd type-2)
 - dbt macros
 - dbt tests
 - dbt project profiles 
