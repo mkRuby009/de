@@ -8,14 +8,19 @@
 
 ### Project details 
 
-A simple project medallion architecture loading and transforming small set of sales data using awesome dbt. The project exercises below features for learning:- 
-- dbt tests
+A simple project medallion architecture loading and transforming small set of sales data using awesome dbt.   
+The project exercises below high-level features for learning (besides many other cool concepts):-   
+- concepts: models, materializations, sources, references
 - dbt seeds
 - dbt snapshots
 - dbt macros
-- config level precedences
+- dbt tests
+- dbt project profiles 
+- dbt version controil (CI/CD deployment + profiles.yml)
+- jinja templating
+- dbt docs
 
-#### important configs for project
+#### Important configs for project
 - models are brought into bronze as it is to keep raw copy for reference
 - model files are in jinja-sql format
-- YAML filea are in jinja-yml format
+- YAML files are in jinja-yml format

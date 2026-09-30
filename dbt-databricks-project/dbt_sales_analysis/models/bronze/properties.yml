@@ -6,7 +6,30 @@ models:
   - name: bronze_product
     config:
       materialized: view
+      schema: bronze
 
   - name: bronze_sales
-    config:
-      materialized: materialized_view
+    columns:
+    - name: sales_id
+      data_tests:
+        - unique
+        - not_null
+    - name: gross_amount
+      data_tests:
+        - generic_non_negative
+
+  - name: bronze_store
+    columns:
+      - name: store_sk
+        data_tests:
+          - unique
+          - not_null
+      - name: store_name
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['MegaMart Manhattan', 'MegaMart Brooklyn', 'MegaMart Toronto', 'MegaMart San Jose','MegaMart Austin']
+              config:
+                severity: warn
+                # note: above test config style can check only for case sensitive accepted values; 
+                # for case insensitive accepted values, write jinja-sql test by converting column to lower case and checking against lower case accepted values. 

@@ -6,6 +6,6 @@ dbt_sales_analysis:
       http_path: /sql/1.0/warehouses/e2f18dc38feb876d
       schema: default
       threads: 1
-      token: <my_token>
+      token: dapi467a3f2123538eaaef80e5f9906541a4
       type: databricks
   target: dev
