@@ -2,10 +2,18 @@ dbt_sales_analysis:
   outputs:
     dev:
       catalog: dbt_databricks_dev
-      host: dbc-88cd67bb-1f50.cloud.databricks.com
+      host: dbc-myhost.cloud.databricks.com
       http_path: /sql/1.0/warehouses/e2f18dc38feb876d
       schema: default
       threads: 1
-      token: dapi467a3f2123538eaaef80e5f9906541a4
+      token: 
+      type: databricks
+    prod:
+      catalog: dbt_databricks_prod
+      host: dbc-myhost.cloud.databricks.com
+      http_path: /sql/1.0/warehouses/e2f18dc38feb876d
+      schema: default
+      threads: 1
+      token: 
       type: databricks
   target: dev
