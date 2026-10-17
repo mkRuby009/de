@@ -1,10 +1,10 @@
 # DBT python project
 
-- compute: databricks
-- dbt packages: dbt-core(1.12.5), dbt-databricks (1.10.9)
-- IDE: vscode
-- extensions: DBT power user
-- python: 3.12.13
+compute: databricks  
+dbt packages: dbt-core(1.12.5), dbt-databricks (1.10.9)  
+IDE: vscode  
+extensions: DBT power user  
+python: 3.12.13  
 
 ### Project details 
 
@@ -21,6 +21,6 @@ The project exercises below high-level features for learning (besides many other
 - dbt docs
 
 #### Important configs for project
-- models are brought into bronze as it is to keep raw copy for reference
-- model files are in jinja-sql format
-- YAML files are in jinja-yml format
+1. models are brought into bronze as it is to keep raw copy for reference
+2. model files are in jinja-sql format
+3. YAML files are in jinja-yml format
