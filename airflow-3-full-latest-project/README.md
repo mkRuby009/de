@@ -1,24 +1,75 @@
-# Full airflow 3.2.2 project
-
-## Steps to create this airflow 3.2.2 project:
-
-
-1. Create a new project and open it in vscode
-2. Manually create folders for dags, logs, plugins, config
-3. Pull docker compose from airflow latets version, to be able to deploy airflow on docker compose
-4. Add port where you prefer to expose postgres container's 5432 port
-5. Create .env file at root level of the project and add 2 env variables for AIRFLOW_UID and FERNET_KEY(you can generate fernet key using command:  
- `python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)"`) or use fernet key generator from standard site
-
-6. Create python running environment which will be used for airflow only to resolve errors and suggestions in the editor. Use uv for this.
-    ```
+# airflow3-feature-lab
+ 
+A personal practice project to learn and test the core features of Apache Airflow 3.
+It runs locally on Docker Compose.  
+Each DAG in `dags/` focuses on one feature.
+ 
+## Tech stack
+ 
+| Tool | Version |
+|---|---|
+| Apache Airflow | 3.2.2 (`apache/airflow:3.2.2`, Python 3.13) |
+| Executor | CeleryExecutor |
+| PostgreSQL | 16 (metadata database) |
+| Redis | 7.2 (Celery broker) |
+| Docker Compose | v2 |
+| uv | local virtual environment for editor support |
+| VS Code | editor |
+ 
+## What I practiced
+ 
+| DAG file | Topic |
+|---|---|
+| `1_first_dag.py` | First DAG |
+| `2_dag_versioning.py` | DAG versioning |
+| `3_operators.py` | Operators |
+| `4_xcoms_auto.py` | XComs passed automatically (TaskFlow return values) |
+| `5_xcoms_kwargs.py` | XComs through task kwargs |
+| `6_parallel_tasks.py` | Parallel tasks |
+| `7_braches.py` | Branching |
+| `8_schedule_preset.py` | Schedule presets |
+| `9_schedule_catchup.py` | Catchup |
+| `10_schedule_cron.py` | Cron schedules |
+| `11_schedule_delta.py` | Time-delta schedules |
+| `12_incremental_load.py` | Incremental load |
+| `13_special_dates.py` | Scheduling on special dates |
+| `asset_export.py` | Asset producer |
+| `15_asset_dependent.py` | Asset-triggered DAG (consumer) |
+| `dags_orchestrate_parent.py` | Parent DAG that orchestrates other DAGs |
+| `dag_orchestrate_1.py`, `dag_orchestrate_2.py` | Child DAGs triggered by the parent |
+ 
+## Project structure
+ 
+```text
+airflow3-feature-lab/
+├── dags/                  # practice DAGs
+├── logs/
+├── plugins/
+├── config/
+├── docker-compose.yaml    # official Airflow 3.3.2 compose file
+├── .env                   # AIRFLOW_UID, FERNET_KEY (not committed)
+└── pyproject.toml         # uv environment, editor only
+```
+ 
+## Setup
+ 
+1. Created the `dags`, `logs`, `plugins` and `config` folders.
+2. Used the official Airflow `docker-compose.yaml` and mapped the Postgres port to the host, so I can inspect the metadata database.
+3. Added a `.env` file with `AIRFLOW_UID` and a generated `FERNET_KEY`.  
+   To generate fernet key using command:
+   
+   `python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)"`
+   
+   or alternatively use fernet key generator from standard site
+5. Set up a local Python environment with uv (`apache-airflow==3.2.2`). It is only for auto-completion and linting in the editor. The containers do not use it.
+   ```
     uv init
     uv sync
     uv add apache-airflow
-    ```
-    Note: Docker containers do not need your local python environment to run.
+   ```
 
-7. Test airflow project by running command `docker compose up -d`
+6. Started the stack by running docker compose.
+   `docker compose up -d`
 
 8. Open airflow UI (localhost:8080) in browser and login using default credentials: `airflow`/`airflow`
 
@@ -29,4 +80,9 @@
     ```
     docker exec -it airflow-3-full-latest-project-postgres-1 psql -U airflow -d airflow
     ```
+## Notes
+ 
+- **DAG parsing:** The DAG processor scans for new files every 300 seconds (`[dag_processor] refresh_interval`). It re-parses known files every 30 seconds (`min_file_process_interval`).
+- **Debugging parsing:** the DAG processor logs in `logs/dag_processor/`, and `docker compose logs airflow-dag-processor`.
+- **Metadata database:** `docker compose exec postgres psql -U airflow -d airflow`
 
