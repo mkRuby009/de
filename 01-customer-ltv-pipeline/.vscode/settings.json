@@ -1,0 +1,23 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+
+    // Power User needs these to recognise dbt files
+    "files.associations": {
+        "*.sql": "jinja-sql",
+        "*.yml": "jinja-yaml"
+    },
+
+    // Every new VS Code terminal gets these. Power User reads this block too,
+    // so the extension and the terminal always use the same profile and files.
+    "terminal.integrated.env.linux": {
+        "DBT_PROFILES_DIR": "${workspaceFolder}/customer_ltv",
+        "LTV_DATA_DIR": "${workspaceFolder}/data",
+        "AIRFLOW_HOME": "${workspaceFolder}/.airflow",
+        "AIRFLOW__CORE__DAGS_FOLDER": "${workspaceFolder}/dags",
+        "AIRFLOW__CORE__LOAD_EXAMPLES": "False",
+        "AIRFLOW__API__HOST": "127.0.0.1",
+        "AIRFLOW__DAG_PROCESSOR__REFRESH_INTERVAL": "30"
+    },
+
+    "dbt.dbtIntegration": "core"
+}

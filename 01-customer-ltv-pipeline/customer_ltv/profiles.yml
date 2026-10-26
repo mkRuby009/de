@@ -1,0 +1,12 @@
+# Found through DBT_PROFILES_DIR (set in .vscode/settings.json and
+# scripts/env.sh), so nothing is needed in ~/.dbt.
+#
+# dev -> data/dev.duckdb, used from VS Code and the terminal.
+customer_ltv:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('LTV_DATA_DIR') }}/dev.duckdb"
+      threads: 4
+      keep_open: false   # release the file between queries
