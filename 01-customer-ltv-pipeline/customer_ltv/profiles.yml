@@ -10,3 +10,7 @@ customer_ltv:
       path: "{{ env_var('LTV_DATA_DIR') }}/dev.duckdb"
       threads: 4
       keep_open: false   # release the file between queries
+    prod:
+      type: duckdb
+      path: "{{ env_var('LTV_DATA_DIR') }}/prod.duckdb"
+      threads: 4

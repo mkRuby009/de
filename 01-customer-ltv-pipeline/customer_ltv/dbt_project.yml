@@ -46,3 +46,9 @@ models:
       +materialized: table
     marts:
       +materialized: table
+
+vars:
+  # NOTE: We are using assumed customer lifespan used in our predicted_clv calculation
+  # This is because used jaffle_shop data covers only ~3 months, too short to measure churn customer lifespan.
+  # To override this var per run, you can use command : dbt build --vars '{clv_lifespan_months: 12}'
+  clv_lifespan_months: 24
