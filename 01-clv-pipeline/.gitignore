@@ -1,0 +1,6 @@
+# Local state (rebuilt by dbt / Airflow)
+data/*.duckdb
+data/*.duckdb.wal
+.airflow/
+logs/
+clv_project/.user.yml

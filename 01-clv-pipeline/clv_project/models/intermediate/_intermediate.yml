@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: int_orders
+    description: Orders with their total paid amount. One row per order.
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+      - name: amount
+        description: Total paid for the order, in dollars.
+        data_tests:
+          - not_null
