@@ -7,7 +7,7 @@ Stack across the repo: PySpark, Airflow, dbt, PostgreSQL, Snowflake, Iceberg, De
  
 | # | Project | Project Objective | Stack | Observations |
 |---|---------|--------------------|-------|--------|
-| [01](01-customer-insights-platform) | Customer Insights Platform | Can I run a full daily batch platform end to end, locally? | Airflow, PySpark, dbt, PostgreSQL, Docker | *fill in* |
+| [01](01-clv-pipeline) | Customer Lifetime Value (CLV) Pipeline | build, test and schedule a CLV report pipeline end to end | dbt, DuckDB, Airflow | 34/34 dbt nodes computed; Calculated average predicted CLV $194.92 (24-month lifespan) |
 | [02](02-lakehouse-iceberg-vs-delta) | Iceberg vs Delta Lake | Which table format handles repeated writes and OLAP scans better? | PySpark, Iceberg, Delta Lake, Parquet | *fill in* |
 | [03](03-cdc-incremental-loads) | CDC and incremental loads | Which incremental load pattern costs least on the source? | PySpark, PostgreSQL | *fill in* |
 | [04](04-scd2-dbt-snowflake) | SCD Type 2 | dbt snapshot or hand-written merge? | PySpark, dbt, Snowflake | *fill in* |

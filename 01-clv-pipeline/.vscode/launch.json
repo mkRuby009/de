@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug DAG: clv_daily",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/dags/clv_daily.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            // do not attach the debugger to the dbt process started by BashOperator
+            "subProcess": false,
+            "env": {
+                "DBT_PROFILES_DIR": "${workspaceFolder}/clv_project",
+                "CLV_DATA_DIR": "${workspaceFolder}/data",
+                "AIRFLOW_HOME": "${workspaceFolder}/.airflow",
+                "AIRFLOW__CORE__DAGS_FOLDER": "${workspaceFolder}/dags",
+                "AIRFLOW__CORE__LOAD_EXAMPLES": "False"
+            }
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+version: 2
+
+seeds:
+    - name: raw_orders
+      description: One row per order. `user_id` references raw_customers.id
+
+    - name: raw_payments
+      description: >
+        One row per payment. An order can have more than one payment. `amount` is in cents.
+
+    - name: raw_customers
+      description: One row per customer. 

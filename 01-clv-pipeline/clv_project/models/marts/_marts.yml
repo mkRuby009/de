@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: One row per order, with customer name and total paid amount.
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
+      - name: is_returned
+        description: True when the status is returned or return_pending.
+      - name: amount
+        description: Total paid for the order, in dollars.
+
+  - name: dim_customers
+    description: >
+      One row per customer, with order counts, net revenue and a simple
+      predicted customer lifetime value.
+    columns:
+      - name: customer_id
+        data_tests:
+          - unique
+          - not_null
+      - name: number_of_orders
+        description: All orders, any status.
+      - name: net_orders
+        description: All orders except returned or return_pending ones.
+      - name: net_revenue
+        description: Total paid on net orders, in dollars.
+        data_tests:
+          - not_null
+      - name: avg_order_value
+        description: net_revenue / net_orders. Null when there are no net orders.
+      - name: orders_per_month
+        description: net_orders / months covered by the data.
+      - name: predicted_clv_project
+        description: avg_order_value x orders_per_month x clv_project_lifespan_months (var).
+        data_tests:
+          - not_null
