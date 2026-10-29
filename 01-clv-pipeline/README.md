@@ -1,4 +1,4 @@
-# Customer LTV Pipeline
+# Customer Lifetime Value (CLV) Pipeline
  
 Batch ELT pipeline that turns raw e-commerce exports (customers, orders,
 payments) into a tested customer lifetime value table. dbt models the data in
@@ -53,9 +53,9 @@ Calculations and terms:-
 - **Average order value:** net revenue / net orders.
 - **Orders per month:** net orders / months covered by the data
   (1 Jan to 9 Apr 2018, about 3.25 months).
-- **Lifespan:** 24 months. This is an assumption (dbt var `clv_lifespan_months`).
+- **Lifespan:** 24 months. This is an assumption (dbt var `clv_project_lifespan_months`).
 
-For the average customer (`analyses/clv_summary.sql`): 60 buying customers,
+For the average customer (`analyses/clv_project_summary.sql`): 60 buying customers,
 average order value $17.04, 0.476 orders per month, 24 months, CLV $194.91.
  
 With one shared window, the formula reduces to monthly net revenue × lifespan,
@@ -65,15 +65,18 @@ data size.
 
 ## Data quality
  
-`dbt build` runs 32 nodes: 3 seeds, 6 models and 23 tests.
+`dbt build` runs 34 nodes: 3 seeds, 6 models and 25 tests.
  
 - `unique` and `not_null` on every primary key
 - `relationships`: orders to customers, payments to orders, `fct_orders` to `dim_customers`
 - `accepted_values` on order status and payment method
-- `assert_payments_reconcile` (singular test): the total in `fct_orders` must
-  equal the total in `stg_payments`. It catches a join that fans out or drops rows.
-Airflow runs `dbt build`, so a failed test fails the `dbt_build` task and the
-report task does not run.
+- `assert_order_amount_matches_payments` (singular test): each order's amount must
+  equal the sum of its payments. A failure lists the order ids, and errors that
+  cancel out in a grand total still show up.
+- `assert_consistent_customer_metrics` (singular test): revenue and CLV are never
+  negative, net orders never exceed all orders, CLV is 0 without net orders, and
+  the first order date is not after the last one.
+
 
 ## Result
 Top 10 customers by predicted CLV (24-month lifespan):
@@ -82,22 +85,25 @@ Top 10 customers by predicted CLV (24-month lifespan):
 
 ## Orchestration
  
-DAG `customer_ltv_daily`: schedule `@daily`, `catchup=False`,
+DAG `clv_daily`: schedule `@daily`, `catchup=False`,
 `max_active_runs=1`, 1 retry.
  
-1. `dbt_build`: `BashOperator` running `dbt build --target prod`
+1. `dbt_build`: `@task.bash` running `dbt build --target prod`
 2. `top_customers`: `@task` that reads `dim_customers` from `data/prod.duckdb`
    (read-only), logs the top 10 by predicted CLV and returns them as an XCom
 
 
 ![alt text](docs/images/airflow_graph.png)
-**Figure1:  Airflow DAG graph**
 
-![alt text](docs/images/airflow_task_log.png)
-**Figure2: Top customers task log**
+**Figure1:  Airflow DAG graph**  
+  
+![alt text](docs/images/airflow_task_log.png)  
+
+**Figure2: Top customers task log**  
 
 ![alt text](docs/images/xcoms.png)
-**Figure3: XCOM from top customer query**
+
+  **Figure3: XCOM from top customer query**  
 
 ## Settings in VS Code
  

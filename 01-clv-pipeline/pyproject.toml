@@ -1,5 +1,5 @@
 [project]
-name = "customer-ltv-pipeline"
+name = "clv-pipeline"
 version = "0.1.0"
 description = "Customer lifetime value pipeline: dbt + DuckDB, orchestrated by Airflow"
 readme = "README.md"

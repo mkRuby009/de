@@ -2,11 +2,11 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'customer_ltv'
+name: 'clv_project'
 version: '1.0.0'
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'customer_ltv'
+profile: 'clv_project'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -26,11 +26,11 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
-# In this config, we tell dbt to build all models in the customer_ltv/
+# In this config, we tell dbt to build all models in the clv_project/
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 seeds:
-  customer_ltv:
+  clv_project:
     raw_orders:
       +column_types:
         order_date: date
@@ -39,7 +39,7 @@ seeds:
         amount: integer   # cents; converted to dollars in stg_payments
 
 models:
-  customer_ltv:
+  clv_project:
     staging:
       +materialized: view
     intermediate:
@@ -48,7 +48,7 @@ models:
       +materialized: table
 
 vars:
-  # NOTE: We are using assumed customer lifespan used in our predicted_clv calculation
+  # NOTE: We are using assumed customer lifespan used in our predicted_clv_project calculation
   # This is because used jaffle_shop data covers only ~3 months, too short to measure churn customer lifespan.
-  # To override this var per run, you can use command : dbt build --vars '{clv_lifespan_months: 12}'
-  clv_lifespan_months: 24
+  # To override this var per run, you can use command : dbt build --vars '{clv_project_lifespan_months: 12}'
+  clv_project_lifespan_months: 24

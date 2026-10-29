@@ -3,4 +3,4 @@ data/*.duckdb
 data/*.duckdb.wal
 .airflow/
 logs/
-customer_ltv/.user.yml
+clv_project/.user.yml

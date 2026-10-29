@@ -10,8 +10,8 @@
     // Every new VS Code terminal gets these. Power User reads this block too,
     // so the extension and the terminal always use the same profile and files.
     "terminal.integrated.env.linux": {
-        "DBT_PROFILES_DIR": "${workspaceFolder}/customer_ltv",
-        "LTV_DATA_DIR": "${workspaceFolder}/data",
+        "DBT_PROFILES_DIR": "${workspaceFolder}/clv_project",
+        "CLV_DATA_DIR": "${workspaceFolder}/data",
         "AIRFLOW_HOME": "${workspaceFolder}/.airflow",
         "AIRFLOW__CORE__DAGS_FOLDER": "${workspaceFolder}/dags",
         "AIRFLOW__CORE__LOAD_EXAMPLES": "False",

@@ -4,8 +4,8 @@
 
 _root="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")/.." && pwd)"
 
-export DBT_PROFILES_DIR="$_root/customer_ltv"
-export LTV_DATA_DIR="$_root/data"
+export DBT_PROFILES_DIR="$_root/clv_project"
+export CLV_DATA_DIR="$_root/data"
 
 export AIRFLOW_HOME="$_root/.airflow"
 export AIRFLOW__CORE__DAGS_FOLDER="$_root/dags"

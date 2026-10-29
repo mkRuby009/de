@@ -12,7 +12,7 @@
 --   orders per month = net orders / months covered by the data
 --   predicted CLV    = avg order value x orders per month x lifespan months
 --
--- Lifespan months is an assumption: var clv_lifespan_months (dbt_project.yml).
+-- Lifespan months is an assumption: var clv_project_lifespan_months (dbt_project.yml).
 
 with data_window as (
 
@@ -44,7 +44,7 @@ customer_orders as (
 -- data_window has one row with net orders per month, (about 3.25 months) => orders per customer per month over one fixed period.
 -- So we use the cross join to adds the data window months value to every customer 
 
-clv_inputs as (
+clv_project_inputs as (
 
     -- the one-row observation CTE is attached to every customer
     select
@@ -71,9 +71,9 @@ select
     cast(avg_order_value as decimal(12, 2)) as avg_order_value,
     cast(orders_per_month as decimal(10, 4)) as orders_per_month,
     cast(
-        coalesce(avg_order_value * orders_per_month * {{ var('clv_lifespan_months') }}, 0)
+        coalesce(avg_order_value * orders_per_month * {{ var('clv_project_lifespan_months') }}, 0)
         as decimal(12, 2)
-    ) as predicted_clv
+    ) as predicted_clv_project
 
-from clv_inputs
+from clv_project_inputs
 

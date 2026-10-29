@@ -15,5 +15,5 @@ select
     count(*) as customers,
     count(case when net_orders > 0 then 1 end) as buyers,
     sum(net_revenue) as net_revenue,
-    max(predicted_clv) as max_clv
+    max(predicted_clv_project) as max_clv_project
 from {{ ref("dim_customers")}}
