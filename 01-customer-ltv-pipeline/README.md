@@ -89,6 +89,16 @@ DAG `customer_ltv_daily`: schedule `@daily`, `catchup=False`,
 2. `top_customers`: `@task` that reads `dim_customers` from `data/prod.duckdb`
    (read-only), logs the top 10 by predicted CLV and returns them as an XCom
 
+
+![alt text](docs/images/airflow_graph.png)
+**Figure1:  Airflow DAG graph**
+
+![alt text](docs/images/airflow_task_log.png)
+**Figure2: Top customers task log**
+
+![alt text](docs/images/xcoms.png)
+**Figure3: XCOM from top customer query**
+
 ## Settings in VS Code
  
 `.vscode/settings.json` points the Python extension at `.venv`, associates
