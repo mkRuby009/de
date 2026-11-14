@@ -33,7 +33,7 @@ The data is the sample shop dataset from
 ![alt text](docs/images/dbt-models.png)
 
 
- Layer | Model | Materialized as | Purpose |
+| Layer | Model | Materialized as | Purpose |
 |---|---|---|---|
 | staging | `stg_customers`, `stg_orders`, `stg_payments` | view | Rename columns, convert payments from cents to dollars |
 | intermediate | `int_orders` | table | One row per order with the total paid (13 orders have more than one payment) |
@@ -53,10 +53,10 @@ Calculations and terms:-
 - **Average order value:** net revenue / net orders.
 - **Orders per month:** net orders / months covered by the data
   (1 Jan to 9 Apr 2018, about 3.25 months).
-- **Lifespan:** 24 months. This is an assumption (dbt var `clv_project_lifespan_months`).
+- **Lifespan:** 24 months. This is an assumption (dbt var `clv_lifespan_months`).
 
-For the average customer (`analyses/clv_project_summary.sql`): 60 buying customers,
-average order value $17.04, 0.476 orders per month, 24 months, CLV $194.91.
+For the average customer (`analyses/clv_summary.sql`): 60 buying customers,
+average order value $17.04, 0.4765 orders per month, 24 months, predicted CLV $194.92.
  
 With one shared window, the formula reduces to monthly net revenue × lifespan,
 so the ranking follows net revenue. Using each customer's own tenure instead
@@ -86,7 +86,7 @@ Top 10 customers by predicted CLV (24-month lifespan):
 ## Orchestration
  
 DAG `clv_daily`: schedule `@daily`, `catchup=False`,
-`max_active_runs=1`, 1 retry.
+`max_active_runs=1`, no retries.
  
 1. `dbt_build`: `@task.bash` running `dbt build --target prod`
 2. `top_customers`: `@task` that reads `dim_customers` from `data/prod.duckdb`
