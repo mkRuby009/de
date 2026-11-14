@@ -1,7 +1,7 @@
 /*
 * Description: This final table gives one record per customer with the numbers that a business platform needs to check about customers frequently.
 * This is the kind of report that a business analyst would use to manage services and marketing better.
-* Lifetime value only counts completed orders from our database: placed/shipped, returned orders aren't being considered
+* Net orders and net revenue leave out returned and return_pending orders.
 */
 
 -- This report outputs below details:-
@@ -12,7 +12,7 @@
 --   orders per month = net orders / months covered by the data
 --   predicted CLV    = avg order value x orders per month x lifespan months
 --
--- Lifespan months is an assumption: var clv_project_lifespan_months (dbt_project.yml).
+-- Lifespan months is an assumption: var clv_lifespan_months (dbt_project.yml).
 
 with data_window as (
 
@@ -33,7 +33,7 @@ customer_orders as (
         max(o.order_date) as most_recent_order_date,
         count(o.order_id) as number_of_orders,
         count(case when not o.is_returned then 1 end) as net_orders,
-        coalesce(sum(case when not o.is_returned then o.amount end), 0) as net_revenue,
+        coalesce(sum(case when not o.is_returned then o.amount end), 0) as net_revenue
     from 
         {{ ref('stg_customers') }} c
         left join {{ ref('fct_orders') }} o on c.customer_id = o.customer_id
@@ -44,7 +44,7 @@ customer_orders as (
 -- data_window has one row with net orders per month, (about 3.25 months) => orders per customer per month over one fixed period.
 -- So we use the cross join to adds the data window months value to every customer 
 
-clv_project_inputs as (
+clv_inputs as (
 
     -- the one-row observation CTE is attached to every customer
     select
@@ -71,9 +71,9 @@ select
     cast(avg_order_value as decimal(12, 2)) as avg_order_value,
     cast(orders_per_month as decimal(10, 4)) as orders_per_month,
     cast(
-        coalesce(avg_order_value * orders_per_month * {{ var('clv_project_lifespan_months') }}, 0)
+        coalesce(avg_order_value * orders_per_month * {{ var('clv_lifespan_months') }}, 0)
         as decimal(12, 2)
-    ) as predicted_clv_project
+    ) as predicted_clv
 
-from clv_project_inputs
+from clv_inputs
 

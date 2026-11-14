@@ -8,7 +8,7 @@
             "program": "${workspaceFolder}/dags/clv_daily.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            // do not attach the debugger to the dbt process started by BashOperator
+            // do not attach the debugger to the dbt process started by the dbt_build task
             "subProcess": false,
             "env": {
                 "DBT_PROFILES_DIR": "${workspaceFolder}/clv_project",

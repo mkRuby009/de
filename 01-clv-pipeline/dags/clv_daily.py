@@ -5,7 +5,6 @@ from pathlib import Path
 
 import pendulum
 from airflow.sdk import dag, task
-from airflow.providers.standard.operators.bash import BashOperator
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DBT_PROJECT_DIR = REPO_ROOT / "clv_project"
@@ -62,13 +61,13 @@ def clv_daily():
 
         query = """
             select customer_id, first_name, last_name, 
-                   net_orders, net_revenue, predicted_clv_project
+                   net_orders, net_revenue, predicted_clv
             from main.dim_customers
-            order by predicted_clv_project desc, customer_id
+            order by predicted_clv desc, customer_id
             fetch first ? rows only
         """
 
-        with duckdb.connect(PROD_DB) as con:
+        with duckdb.connect(str(PROD_DB), read_only=True) as con:
             rows = con.execute(query, [limit]).fetchall()
 
         result = [
@@ -77,14 +76,14 @@ def clv_daily():
                 "name": f"{first_name} {last_name}",
                 "net_orders": net_orders,
                 "net_revenue": float(net_revenue),
-                "predicted_clv_project": float(predicted_clv_project),
+                "predicted_clv": float(predicted_clv),
             }
-            for customer_id, first_name, last_name, net_orders, net_revenue, predicted_clv_project in rows
+            for customer_id, first_name, last_name, net_orders, net_revenue, predicted_clv in rows
         ]
         for rank, row in enumerate(result, start=1):
             print(
                 f"{rank:>2}. {row['name']:<20} revenue ${row['net_revenue']:>7.2f}"
-                f"  CLV ${row['predicted_clv_project']:>8.2f}"
+                f"  CLV ${row['predicted_clv']:>8.2f}"
             )
         return result
 
