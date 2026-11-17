@@ -1,0 +1,22 @@
+
+# CDC output from pg_recvlogical: large, and different on every run
+/data/
+ 
+# Data files, if one ends up in the project folder by mistake
+*.csv
+*.jsonl
+ 
+# Logs
+*.log
+ 
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+ 
+# Local secrets, if you ever add any
+.env
+.pgpass
+ 
