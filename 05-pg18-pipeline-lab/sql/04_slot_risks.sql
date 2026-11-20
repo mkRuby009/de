@@ -13,12 +13,18 @@
 -- BEFORE. safe_wal_size = how much more WAL can be written before the slot is at risk.
 SELECT slot_name, active, wal_status,
     pg_size_pretty(safe_wal_size) AS safe_wal_size,
-    invalidating_reason
+    invalidation_reason
 FROM pg_replication_slots;
 
 -- 2M rows of padding. Its only job is to write about 300 MB of WAL.
 CREATE TABLE wal_filler AS
 SELECT g, repeat('x', 100) AS pad FROM generate_series(1, 2000000) AS g;
+
+-- Over the limit, before any checkpoint: expect unreserved, negative safe_wal_size
+SELECT slot_name, active, wal_status,
+    pg_size_pretty(safe_wal_size) AS safe_wal_size,
+    invalidation_reason
+FROM pg_replication_slots;
 
 -- closing the current wal file
 SELECT pg_switch_wal();
@@ -29,10 +35,10 @@ CHECKPOINT;
 --AFTER checkpoint : a check after WAL removal
 SELECT slot_name, active, wal_status,
     pg_size_pretty(safe_wal_size) AS safe_wal_size,
-    invalidating_reason
+    invalidation_reason
 FROM pg_replication_slots;
 
-DROP TABLLE wal_filler;
+DROP TABLE wal_filler;
 
 /*
 Step 3: Confirming that the slot is invalidated.

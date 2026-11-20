@@ -39,7 +39,6 @@ CREATE TABLE events (
 ) PARTITION BY RANGE (event_time);
  
 -- pg_partman creates the partitions and records the table in partman.part_config.
--- p_default_table is not clear to me 
 SELECT partman.create_partition(
   p_parent_table    := 'public.events',   -- table to manage (schema.table)
   p_control         := 'event_time',      -- the partition key column
@@ -47,6 +46,7 @@ SELECT partman.create_partition(
   p_start_partition := '2025-10-01',      -- first partition to create
   p_premake         := 2,                 -- keep 2 future partitions ready
   p_default_table   := false);            -- no catch-all partition ??
+  -- p_default_table: A default partition hides a missing month, and DETACH .. CONCURRENTLY is not allowed while one exists
  
 -- 50,000 customers. generate_series gives one row per number g.
 -- (ARRAY[...])[n] picks the n-th word. Arrays start at 1.
