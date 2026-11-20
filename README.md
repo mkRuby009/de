@@ -9,10 +9,10 @@ Stack across the repo: PySpark, Airflow, dbt, PostgreSQL, Snowflake, Iceberg, De
 |---|---------|--------------------|-------|--------|
 | [01](01-clv-pipeline) | Customer Lifetime Value (CLV) Pipeline | build, test and schedule a CLV report pipeline end to end | dbt, DuckDB, Airflow | 34/34 dbt nodes computed; Calculated average predicted CLV $194.92 (24-month lifespan) |
 | [02](02-lakehouse-iceberg-vs-delta) | Iceberg vs Delta Lake | Which table format handles repeated writes and OLAP scans better? | PySpark, Iceberg, Delta Lake, Parquet | *fill in* |
-| [03](03-cdc-incremental-loads) | CDC and incremental loads | Which incremental load pattern costs least on the source? | PySpark, PostgreSQL | *fill in* |
-| [04](04-scd2-dbt-snowflake) | SCD Type 2 | dbt snapshot or hand-written merge? | PySpark, dbt, Snowflake | *fill in* |
-| [05](05-postgres-horizontal-scaling) | PostgreSQL horizontal scaling | Where does a distributed query stop scaling? | PostgreSQL, Citus, YugabyteDB, Multigres, Airflow | *fill in* |
-| [06](06-spark-aqe-connect) | Spark AQE and Spark Connect | Which AQE optimisations actually fire on skewed data? | PySpark, Spark Connect | *fill in* |
+| [03](04-scd2-dbt-snowflake) | SCD Type 2 | dbt snapshot or hand-written merge? | PySpark, dbt, Snowflake | *fill in* |
+| [04](04-pg18-pipeline-lab) | PostgreSQL 18 CDC and Partitioning | build CDC on native Postgres, and keep a large partitioned table fast and maintained | PostgreSQL 18, wal2json, pg_partman, pg_cron | Replay-safe CDC, with slot failure modes reproduced; Partition pruning and BRIN for fast time-range reads |
+| [05](05-spark-tuning-exercises) | Spark Tunning excercises | AQE, lots more | PySpark | *fill in* |
+| [06](06-spark-connect-usecase) | Spark Spark Connect | Spark connect usecase | PySpark, Spark Connect | *fill in* |
  
 ---
  

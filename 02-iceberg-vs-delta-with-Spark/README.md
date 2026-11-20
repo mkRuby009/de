@@ -1,3 +1,3 @@
-# 02-lakehouse-iceberg-vs-delta
+# 02-iceberg-vs-delta
 
 Work in progress.
