@@ -6,7 +6,7 @@
 * Learning: Partition pruning is a powerful feature which can significantly improve query performance on large partitioned tables. 
             BRIN indexes are efficient for large tables with sequentially correlated data;
             B-Tree indexes are more versatile but may require more storage and maintenance.
-  NOTE: the script only lists queries, Inot run it as it is instead ran all steps manually to debug better
+  NOTE: the script only lists queries, but all steps were run manually to debug and understand better
 */
 /*
 Step 1: Test a event query with and without partition pruning
