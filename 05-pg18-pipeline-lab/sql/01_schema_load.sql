@@ -45,7 +45,7 @@ SELECT partman.create_partition(
   p_interval        := '1 month',         -- size of one partition
   p_start_partition := '2025-10-01',      -- first partition to create
   p_premake         := 2,                 -- keep 2 future partitions ready
-  p_default_table   := false);            -- no catch-all partition ??
+  p_default_table   := false);            -- no catch-all partition
   -- p_default_table: A default partition hides a missing month, and DETACH .. CONCURRENTLY is not allowed while one exists
  
 -- 50,000 customers. generate_series gives one row per number g.

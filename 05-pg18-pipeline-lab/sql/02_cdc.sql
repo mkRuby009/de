@@ -84,7 +84,7 @@ WHERE order_id IN (SELECT order_id FROM orders WHERE status = 'paid' ORDER BY or
  
 -- Deleting 100 cancelled orders to add up more change in CDC. A delete line in the CDC output carries only the key (the primary key = replica identity).
 DELETE FROM orders
-WHERE order_id IN (SELECT order_id FROM orders WHERE status = 'cancelled' ORDER BY order_id LIMIT 100)
+WHERE order_id IN (SELECT order_id FROM orders WHERE status = 'cancelled' ORDER BY order_id LIMIT 100);
 
 /* Step 6: Checking how much WAL the slot (cdc_orders) has kept. The slot's restart_lsn is the oldest WAL that the server must keep for this slot.
 -- Peek = read the waiting changes but leave them in the slot.
