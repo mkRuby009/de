@@ -29,7 +29,7 @@ PostgreSQL 18.7 on Ubuntu 24.04, in its own local cluster. Generated data: 50k c
 
 Six settings differ from a default cluster ([conf/lab.conf](conf/lab.conf)). The key one is `wal_level = logical`. `max_slot_wal_keep_size = 128MB` is small on purpose, so I could watch a slot hit it.
 
-![Lab cluster settings from pg_settings](pg_settings.png)
+![Lab cluster settings from pg_settings](docs/img/pg_settings.png)
 
 ## What it looks like
 

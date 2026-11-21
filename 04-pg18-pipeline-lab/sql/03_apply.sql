@@ -71,16 +71,14 @@ m AS (
 -- Report: how many rows each action changed. A second run must return 0 rows.
 SELECT merge_action, count(*) AS rows_changed FROM m GROUP BY 1 ORDER BY 1;
 
-/* step 3: Proving that source and target are now identical. 
-   The source: orders table 
-   the target: dwh.orders
-   Join all rows into one long string in key order, then reduce it to one md5 value.
-  If any row differs between source and target, the two values differ.
+/* Step 3: Proving that source and target are now identical.
+   EXCEPT returns the rows in one table that are not in the other, comparing every column.
+   Checking both directions catches rows missing on either side and rows that differ.
+   SELECT * works here because dwh.orders was made with LIKE public.orders: same columns, same order.
+   0 = identical.
 */
-SELECT 'source public.orders' AS side, count(*),
-       md5(string_agg(order_id || status || amount || updated_at, ',' ORDER BY order_id)) AS checksum
-FROM public.orders
-UNION ALL
-SELECT 'target dwh.orders', count(*),
-       md5(string_agg(order_id || status || amount || updated_at, ',' ORDER BY order_id))
-FROM dwh.orders;
+SELECT count(*) AS diff_rows FROM (
+  (SELECT * FROM public.orders EXCEPT SELECT * FROM dwh.orders)
+  UNION ALL
+  (SELECT * FROM dwh.orders EXCEPT SELECT * FROM public.orders)
+) d;
