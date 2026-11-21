@@ -1,3 +1,3 @@
-# 02-iceberg-vs-delta
+# 02-iceberg-vs-delta-with-Spark
 
 Work in progress.
